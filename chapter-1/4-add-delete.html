@@ -98,6 +98,7 @@ html tag -->
         var employeeApp = angular.module("employeeApp", []);
 
         employeeApp.controller("employeeController", function ($scope) {
+                    $scope.maxid = 7;
                     $scope.employeeModel = model;
                     $scope.selectedId = 0;
                     $scope.validCount = function () {
@@ -114,8 +115,20 @@ html tag -->
                         return $scope.employeeModel.items.length;
                     }
 
-                    $scope.add = function (employeeObj) {
-                        $scope.employeeModel.items.push(employeeObj);
+                    $scope.add = function () {
+                        var employee = new Object();
+                        employee.id = $scope.maxid;
+                        $scope.maxid++;
+                        employee.name = randomString(5);
+                        employee.age =  randomNumber();
+                        employee.valid = ((randomNumber % 2)==0) ? true:false
+                        employee.eyeColor = "white";
+                        employee.gender= ((randomNumber % 2)==0) ? "male":"female";
+                        employee.company= randomString(5);
+                        employee.email= randomString(5)+"@"+employee.company;
+                        employee.phone = "+1 (800) 100-4000";
+                        employee.address = randomString(15);
+                        $scope.employeeModel.items.push(employee);
                     }
 
                     $scope.remove = function () {
@@ -137,8 +150,21 @@ html tag -->
                 }
         );
 
+        function randomNumber(){
+            var rand = Math.round(Math.random() * 2);
+            return rand;
+        }
 
-
+        function randomString() {
+            var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+            var string_length = 5;
+            var randomstring = '';
+            for (var i=0; i<string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                randomstring += chars.substring(rnum,rnum+1);
+            }
+            return randomstring;
+        }
     </script>
 </head>
 <!-- Define the controller which will work on this scope -->
@@ -155,7 +181,7 @@ html tag -->
 <div style="margin:50px;">
     <hr/>
     <div style="height:50px;width:100%">
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+        <button type="button" class="btn btn-primary btn-sm" ng-click="add();">
             Add Employee
         </button>
     </div>
@@ -189,19 +215,19 @@ html tag -->
             <td>{{model.email}}</td>
             <td>{{model.phone}}</td>
             <td>{{model.address}}</td>
-            <td><input type="checkbox" ng-model="model.valid" disabled/></td>
+            <td><input type="checkbox" ng-model="model.valid" /></td>
         </tr>
         </tbody>
     </table>
 
     <!-- Modal -->
-    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Delete Employee?</h4>
+                    <h4 class="modal-title" id="deleteModalLabel">Delete Employee?</h4>
                 </div>
                 <div class="modal-body">
                     Are you sure you want to delete the selected employee with ID {{selectedId}}
