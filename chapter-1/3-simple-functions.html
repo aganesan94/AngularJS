@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!-- Declare ng-app to make sure this is angularjs app and the scope of the angularjs functions should start from the
+html tag -->
+<html lang="en" ng-app="employeeApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>2-simple-datatable.html</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <link href="../resources/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script>
+
+        var model = {
+            username: "Arun",
+            items: [
+                {
+                    "age": 27,
+                    "eyeColor": "brown",
+                    "name": "Mildred Giles",
+                    "gender": "female",
+                    "company": "VIASIA",
+                    "email": "mildredgiles@viasia.com",
+                    "phone": "+1 (944) 491-3267",
+                    "address": "427 Dahlgreen Place, Homeland, Kansas, 7406",
+                    "valid": true
+                },
+                {
+                    "age": 31,
+                    "eyeColor": "green",
+                    "name": "Stevenson Higgins",
+                    "gender": "male",
+                    "company": "VIRVA",
+                    "email": "stevensonhiggins@virva.com",
+                    "phone": "+1 (874) 434-2786",
+                    "address": "650 Chauncey Street, Titanic, Wyoming, 5597",
+                    "valid": true
+                },
+                {
+                    "age": 31,
+                    "eyeColor": "brown",
+                    "name": "Geneva Schneider",
+                    "gender": "female",
+                    "company": "VISALIA",
+                    "email": "genevaschneider@visalia.com",
+                    "phone": "+1 (881) 466-2258",
+                    "address": "276 Blake Court, Takilma, Oklahoma, 6333",
+                    "valid": true
+                },
+                {
+                    "age": 38,
+                    "eyeColor": "brown",
+                    "name": "Hull Harvey",
+                    "gender": "male",
+                    "company": "NAXDIS",
+                    "email": "hullharvey@naxdis.com",
+                    "phone": "+1 (886) 402-3793",
+                    "address": "292 Gerritsen Avenue, Farmers, Arkansas, 6036",
+                    "valid": true
+                },
+                {
+                    "age": 26,
+                    "eyeColor": "blue",
+                    "name": "Erica Mays",
+                    "gender": "female",
+                    "company": "INQUALA",
+                    "email": "ericamays@inquala.com",
+                    "phone": "+1 (862) 411-3060",
+                    "address": "384 Ludlam Place, Winchester, Georgia, 864",
+                    "valid": true
+                },
+                {
+                    "age": 33,
+                    "eyeColor": "green",
+                    "name": "Pollard Ewing",
+                    "gender": "male",
+                    "company": "OLUCORE",
+                    "email": "pollardewing@olucore.com",
+                    "phone": "+1 (981) 485-4000",
+                    "address": "382 Norman Avenue, Dante, Indiana, 9611",
+                    "valid": false
+                }
+            ]
+
+        };
+        /* This is like defining the module and any associated modules to be loaded, typically like a package name, and the associated imports if any in an array */
+        var employeeApp = angular.module("employeeApp", []);
+
+        employeeApp.controller("employeeController", function ($scope) {
+                    $scope.employeeModel = model;
+                    $scope.validCount = function () {
+                        var count = 0;
+                        angular.forEach( $scope.employeeModel.items, function (item) {
+                                    if(item.valid){
+                                        count++
+                                    }
+                                });
+                        return count;
+                    }
+
+                    $scope.findTotal = function () {
+                        return  $scope.employeeModel.items.length;
+                    }
+                }
+        );
+    </script>
+</head>
+<!-- Define the controller which will work on this scope -->
+<body ng-controller="employeeController">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#" style="color:white;font-weight:bold;">Angular JS for Java Developers Sample
+                Tutorials</a>
+        </div>
+    </div>
+</nav>
+<div style="margin:50px;">
+    <table class="table table-hover">
+        <caption><strong>List of Employees. Total:{{findTotal()}}, Valid Employees:{{validCount()}} </strong></caption>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Eye Color</th>
+            <th>Gender</th>
+            <th>Company</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Still Employed?</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="model in employeeModel.items">
+            <td>{{model.name}}</td>
+            <td>{{model.age}}</td>
+            <td>{{model.eyeColor}}</td>
+            <td>{{model.gender}}</td>
+            <td>{{model.company}}</td>
+            <td>{{model.email}}</td>
+            <td>{{model.phone}}</td>
+            <td>{{model.address}}</td>
+            <td><input type="checkbox" ng-model="model.valid" disabled/></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
